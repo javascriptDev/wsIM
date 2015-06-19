@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>mtime im</title>
+    <link rel="stylesheet" href="css/index.css" media="screen" type="text/css"/>
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+
+<body>
+<div class="main">
+    <div class="friend">
+        <div class="fprofile">
+            <div class="my"></div>
+        </div>
+
+        <div class="ftab">
+            <div class="ftitle">联系人</div>
+            <div class="fcontents">
+                <div class="fcontent" data-index="1">
+                </div>
+            </div>
+            <div class="ftabs">
+                <div class="ftab contact" data-index="1">联系人</div>
+                <div class="ftab talk" data-index="2">聊天</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="msgWin">
+        <div class="content">
+
+        </div>
+        <div class="tools">
+            <span class="expression ti">expression</span>
+            <span class="history ti">history</span>
+        </div>
+        <div class="msg">
+            <textarea class="input" placeholder="please enter some ....">
+
+            </textarea>
+        </div>
+    </div>
+</div>
+
+<script>
+    var websocket;
+    Math.uuid = function () {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+    function delCookie(name) {//为了删除指定名称的cookie，可以将其过期时间设定为一个过去的时间
+        var date = new Date();
+        date.setTime(date.getTime() - 10000);
+        document.cookie = name + "=a; expires=" + date.toGMTString();
+        document.cookie = "";
+    }
+
+    function get_id() {
+        var id;
+        document.cookie.split(';').forEach(function (item) {
+            var key = item.split('=');
+            if (key[0].indexOf('_id') != -1) {
+                id = key[1];
+            }
+        })
+        return id;
+    }
+
+    var id = get_id();
+
+    var $ = function (selector, isArr) {
+        if (isArr) {
+            return Array.prototype.slice.call(document.querySelectorAll(selector));
+        }
+        else {
+            return document.querySelector(selector);
+        }
+    }
+
+
+    var msgEl = $('.content'), myEl = $('.my'), friendEl = $('.fcontent'),txt = $('.input');
+
+
+    var wsServer = 'ws://192.168.20.170:1338';
+
+    if (!websocket) {
+        (websocket          = new WebSocket(wsServer));
+        websocket.onopen    = onOpen;
+        websocket.onclose   = onClose;
+        websocket.onmessage = onMessage;
+        websocket.onerror   = onError;
+    }
+
+    //消息类型
+    var msgType = {
+        login       : 'login',
+        msg         : 'msg',
+        initFriend  : 'initFriend',
+        logOut       : 'loginOut',
+        loginSuccess:  'loginSuccess'
+    }
+
+    //每个客户端的个人信息
+    var global = {};
+
+    // build the message dom
+    function buildMsg(from,txt){
+
+        var div = document.createElement('div');
+        div.className = 'fmsg';
+        div.innerHTML = '  <img src="" class="fmh" alt=""/><p class="fmtxt">' + from + ':' + txt + '</p>';
+        return div;
+    }
+
+    //build the friend online event dom
+    function buildFriend(name){
+        var div = document.createElement('div');
+        div.className  = 'fitem';
+        div.innerHTML = '<img src="" alt="" class="fhead"/><div class="ftxt">'+name+'</div>';
+        return div;
+    }
+
+    function onOpen(evt) {
+        console.log("Connected to WebSocket server.");
+
+        global.id = localStorage.getItem('uname') || 'no name';
+
+
+        //消息类型 & 唯一id
+        websocket.send(JSON.stringify({
+            sid  : global.id,
+            type : msgType.login
+        }));
+
+        //发送心跳包,防止 信道空闲时间过长，自动断开
+//        setInterval(function () {
+//            if (websocket.bufferedAmount == 0) {//bufferedAmount 为连接缓冲使用
+//                websocket.send('~H#C~');
+//            }
+//        }, 5000)
+    }
+    function onClose(evt) {
+        console.log("Disconnected");
+    }
+    function onMessage(evt) {
+        var data = JSON.parse(evt.data);
+
+        if (data.type == msgType.loginSuccess) {///处理登录
+            myEl.innerHTML = data.uid;
+        } else if (data.type == msgType.msg) {
+             msgEl.appendChild(buildMsg(data.from, data.msg));
+            txt.value = '';
+        } else if (data.type == msgType.initFriend) {
+            //初始化好友列表
+            data.data.forEach(function (item) {
+                friendEl.appendChild(buildFriend(item));
+            })
+        } else if (data.type == msgType.loginOut) {
+            Array.prototype.forEach.call(friend.querySelectorAll('div'), function (item) {
+                if (item.innerHTML == data.sid) {
+                    item.parentNode.removeChild(item);
+                }
+            })
+        }
+    }
+    function onError(evt) {
+        console.dir(evt);
+    }
+
+    txt.onkeyup = function(e){
+       var code = e.which;
+        if(code == 13){
+            //回车
+            if(!txt.value)return;
+
+            //generate msg object
+            var obj = {
+                sid: global.id, //client 唯一id
+                did: '', //目标id
+                text: txt.value,
+                type: msgType.msg
+            }
+
+            websocket.send(JSON.stringify(obj));
+        }
+    }
+
+//    window.onunload = function (e) {
+//        var o = {
+//            sid: global.id,
+//            type: msgType.logOut
+//        };
+//        websocket.send(JSON.stringify(o));
+//    }
+</script>
+</body>
+</html>

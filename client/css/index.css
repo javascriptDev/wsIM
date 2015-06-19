@@ -1,0 +1,161 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.main {
+  width: 890px;
+  height: 600px;
+  position: relative;
+  margin: 100px auto;
+}
+.friend {
+  width: 250px;
+  float: left;
+  height: 100%;
+}
+.friend .fprofile {
+  height: 80px;
+  width: 100%;
+}
+.friend .fprofile .my {
+  height: 60px;
+  width: 100%;
+  margin: 0px auto;
+  background: skyblue;
+  color: white;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.friend .ftab {
+  height: 520px;
+  border: 1px solid #094DEB;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 6px 6px 0 0;
+}
+.friend .ftab .ftitle {
+  height: 50px;
+  border-radius: 5px 5px 0 0;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #094deb), color-stop(1, #2d86cf));
+  background-image: -o-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -moz-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -webkit-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -ms-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: linear-gradient(to bottom, #094deb 0%, #2d86cf 100%);
+}
+.friend .ftab .fcontents {
+  height: 420px;
+}
+.friend .ftab .fcontents .fcontent {
+  height: 100%;
+}
+.friend .ftab .fcontents .fcontent .fitem {
+  height: 50px;
+  line-height: 50px;
+  display: -webkit-box;
+  display: box;
+}
+.friend .ftab .fcontents .fcontent .fitem .fhead {
+  width: 35px;
+  height: 35px;
+  background-color: red;
+  margin: 10px;
+}
+.friend .ftab .fcontents .fcontent .fitem .ftxt {
+  word-break: break-all;
+  overflow: hidden;
+  height: 100%;
+  width: 190px;
+}
+.friend .ftab .ftabs {
+  height: 50px;
+  line-height: 50px;
+}
+.friend .ftab .ftabs .ftab {
+  width: 50%;
+  float: left;
+  text-align: center;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #094deb), color-stop(1, #2d86cf));
+  background-image: -o-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -moz-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -webkit-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: -ms-linear-gradient(bottom, #094deb 0%, #2d86cf 100%);
+  background-image: linear-gradient(to bottom, #094deb 0%, #2d86cf 100%);
+  height: 100%;
+  color: white;
+}
+.friend .ftab .ftabs .talk {
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(1, #094deb), color-stop(1, #2d86cf));
+  background-image: -o-linear-gradient(bottom, #094deb 100%, #2d86cf 100%);
+  background-image: -moz-linear-gradient(bottom, #094deb 100%, #2d86cf 100%);
+  background-image: -webkit-linear-gradient(bottom, #094deb 100%, #2d86cf 100%);
+  background-image: -ms-linear-gradient(bottom, #094deb 100%, #2d86cf 100%);
+  background-image: linear-gradient(to bottom, #094deb 100%, #2d86cf 100%);
+}
+.msgWin {
+  width: 550px;
+  height: 100%;
+  float: right;
+  border: 1px solid #2D86CF;
+  border-radius: 4px;
+}
+.msgWin .content {
+  height: 420px;
+}
+.msgWin .content .fmsg {
+  padding: 10px 20px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 60px;
+}
+.msgWin .content .fmsg .fmh {
+  margin: 8px;
+  float: left;
+  height: 35px;
+  width: 35px;
+}
+.msgWin .content .fmsg .fmtxt {
+  line-height: 20px;
+  width: 90%;
+  padding-left: 50px;
+  padding-top: 5px;
+}
+.msgWin .tools {
+  height: 40px;
+  background: #3d86cf;
+}
+.msgWin .tools .ti {
+  color: white;
+  margin-left: 30px;
+  background: #2ecc71;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  padding: 5px 10px;
+  display: inline-block;
+  margin-top: 7px;
+}
+.msgWin .tools .ti:hover {
+  color: red;
+}
+.msgWin .msg {
+  height: 100px;
+}
+.msgWin .msg .input {
+  height: 139px;
+  border: none;
+  outline: 0;
+  width: 100%;
+  padding: 10px 10px;
+  box-sizing: border-box;
+}
+.msgWin .msg .input:focus {
+  border-top: 1px solid #2D86CF;
+}
